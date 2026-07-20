@@ -97,36 +97,36 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart, 
           </ul>
         </div>
 
-        <div className="mt-auto pt-4 flex items-center justify-between border-t border-slate-100">
+        <div className="mt-auto pt-4 flex flex-col gap-3 border-t border-slate-100">
           <span className="font-bold text-xl text-slate-900">
             {formatPrice(product.price)}
           </span>
-          <div className="flex gap-2">
-            <button 
-              onClick={(e) => {
-                e.stopPropagation();
-                onAddToCart(product);
-              }}
-              className="flex items-center justify-center bg-slate-100 hover:bg-slate-200 text-slate-700 p-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
-              title="Adicionar ao carrinho"
-            >
-              <ShoppingBag className="w-5 h-5" />
-            </button>
+          <div className="flex gap-2 w-full">
             <a 
               href={`https://wa.me/5551993781978?text=${encodeURIComponent(`Olá! Gostaria de comprar o produto: ${product.name} - ${formatPrice(product.price)}`)}`}
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="flex items-center justify-center bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg transition-colors font-medium text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+              className="flex-1 flex items-center justify-center bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg transition-colors font-medium text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
             >
               Comprar
             </a>
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                onAddToCart(product);
+              }}
+              className="flex items-center justify-center bg-slate-100 hover:bg-slate-200 text-slate-700 p-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 flex-shrink-0"
+              title="Adicionar ao carrinho"
+            >
+              <ShoppingBag className="w-5 h-5" />
+            </button>
             <a 
               href={`https://wa.me/?text=${encodeURIComponent(`Olha que legal esse produto da Visiontec Informática: ${product.name} - ${formatPrice(product.price)}!\n\nAcesse: ${window.location.origin}`)}`}
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="flex items-center justify-center bg-slate-100 hover:bg-slate-200 text-slate-700 p-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
+              className="flex items-center justify-center bg-slate-100 hover:bg-slate-200 text-slate-700 p-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 flex-shrink-0"
               title="Compartilhar no WhatsApp"
             >
               <Share2 className="w-5 h-5" />

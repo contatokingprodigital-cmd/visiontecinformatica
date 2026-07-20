@@ -97,34 +97,36 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, on
             <p className="text-sm text-slate-500 mt-1">em até 12x no cartão de crédito</p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-3 mb-8">
+          <div className="flex flex-col gap-3 mb-8">
+            <div className="flex gap-3">
+              <a 
+                href={`https://wa.me/5551993781978?text=${encodeURIComponent(`Olá! Gostaria de comprar o produto: ${product.name} - ${formatPrice(product.price)}`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 flex items-center justify-center bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-3 rounded-xl transition-colors font-semibold shadow-lg shadow-emerald-500/30 text-center"
+              >
+                Comprar Agora
+              </a>
+              <a 
+                href={`https://wa.me/?text=${encodeURIComponent(`Olha que legal esse produto da Visiontec Informática: ${product.name} - ${formatPrice(product.price)}!\n\nAcesse: ${window.location.origin}`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-3 rounded-xl transition-colors font-semibold flex-shrink-0"
+                title="Compartilhar no WhatsApp"
+              >
+                <Share2 className="w-5 h-5" />
+              </a>
+            </div>
             <button 
               onClick={() => {
                 onAddToCart(product);
                 onClose();
               }}
-              className="flex-1 flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-6 py-3 rounded-xl transition-colors font-semibold"
+              className="w-full flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-4 py-3 rounded-xl transition-colors font-semibold"
             >
               <ShoppingBag className="w-5 h-5" />
               Adicionar ao Carrinho
             </button>
-            <a 
-              href={`https://wa.me/5551993781978?text=${encodeURIComponent(`Olá! Gostaria de comprar o produto: ${product.name} - ${formatPrice(product.price)}`)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 flex items-center justify-center bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-xl transition-colors font-semibold shadow-lg shadow-emerald-500/30"
-            >
-              Comprar Agora
-            </a>
-            <a 
-              href={`https://wa.me/?text=${encodeURIComponent(`Olha que legal esse produto da Visiontec Informática: ${product.name} - ${formatPrice(product.price)}!\n\nAcesse: ${window.location.origin}`)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-3 rounded-xl transition-colors font-semibold"
-              title="Compartilhar no WhatsApp"
-            >
-              <Share2 className="w-5 h-5" />
-            </a>
           </div>
 
           <div className="space-y-6 flex-grow">
