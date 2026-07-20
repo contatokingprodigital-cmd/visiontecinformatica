@@ -178,7 +178,7 @@ export const Admin = () => {
       if (err.message) errorMsg = err.message;
       else if (err.error_description) errorMsg = err.error_description;
       
-      alert(`Erro ao salvar produto: ${errorMsg}\n\nVerifique se o bucket "product-images" existe e é público, e se as regras de segurança (RLS) estão desativadas para a tabela "products" e para o bucket.`);
+      alert(`Erro ao salvar produto: ${errorMsg}\n\nPara resolver o problema de segurança (RLS), vá até o SQL Editor do seu Supabase e rode os seguintes comandos:\n\nalter table "products" disable row level security;\nalter table "settings" disable row level security;`);
     } finally {
       setSaving(false);
     }

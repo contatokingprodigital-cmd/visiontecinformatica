@@ -3,7 +3,7 @@ import { Navbar } from '../components/Navbar';
 import { ProductCard } from '../components/ProductCard';
 import { Cart } from '../components/Cart';
 import { Product, CartItem } from '../types';
-import { Filter, Search, Laptop } from 'lucide-react';
+import { Filter, Search, Laptop, ChevronRight, Shield, Cpu, MessageCircle } from 'lucide-react';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import { products as initialProducts } from '../data/products';
 import { useLogo } from '../hooks/useLogo';
@@ -116,21 +116,87 @@ export const Store = () => {
       />
 
       {/* Hero Section */}
-      <div className="bg-slate-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-24">
-          <div className="max-w-3xl">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6">
-              O setup perfeito <br/><span className="text-blue-500">espera por você.</span>
+      <div className="relative overflow-hidden bg-slate-950 text-white border-b border-slate-800">
+        {/* Abstract Background Elements */}
+        <div className="absolute top-0 right-0 -mr-48 -mt-48 w-96 h-96 bg-blue-600 rounded-full mix-blend-screen filter blur-[128px] opacity-30 animate-pulse"></div>
+        <div className="absolute bottom-0 left-0 -ml-48 -mb-48 w-96 h-96 bg-cyan-600 rounded-full mix-blend-screen filter blur-[128px] opacity-20"></div>
+        
+        {/* Grid Pattern overlay */}
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay"></div>
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32 flex flex-col lg:flex-row items-center gap-12">
+          <div className="w-full lg:w-1/2 z-10 text-center lg:text-left">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-medium mb-8 shadow-[0_0_20px_-5px_rgba(59,130,246,0.3)]">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-500"></span>
+              </span>
+              Novos modelos disponíveis
+            </div>
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-[1.1]">
+              O setup perfeito <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-500">espera por você.</span>
             </h1>
-            <p className="text-lg sm:text-xl text-slate-300 mb-8 max-w-2xl leading-relaxed">
-              Encontre os melhores computadores e notebooks, novos e seminovos, com garantia e qualidade que só a Visiontec Informática oferece.
+            <p className="text-lg sm:text-xl text-slate-300 mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-light">
+              Encontre os melhores computadores e notebooks, novos e seminovos, com garantia e qualidade que só a <strong className="text-white font-medium">Visiontec Informática</strong> oferece.
             </p>
-            <button 
-              onClick={() => document.getElementById('produtos')?.scrollIntoView({ behavior: 'smooth' })}
-              className="bg-blue-600 hover:bg-blue-500 text-white font-medium px-8 py-4 rounded-xl transition-colors shadow-lg shadow-blue-900/20"
-            >
-              Ver Ofertas
-            </button>
+            <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
+              <button 
+                onClick={() => document.getElementById('produtos')?.scrollIntoView({ behavior: 'smooth' })}
+                className="w-full sm:w-auto bg-blue-600 hover:bg-blue-500 text-white font-medium px-8 py-4 rounded-xl transition-all shadow-[0_0_40px_-10px_rgba(37,99,235,0.5)] hover:shadow-[0_0_60px_-15px_rgba(37,99,235,0.7)] flex items-center justify-center gap-2 group"
+              >
+                Ver Ofertas
+                <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </button>
+              <a 
+                href="https://wa.me/559999999999" 
+                target="_blank"
+                rel="noreferrer"
+                className="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white font-medium px-8 py-4 rounded-xl transition-colors border border-slate-700 hover:border-slate-600 flex items-center justify-center gap-2 group"
+              >
+                <MessageCircle className="w-5 h-5 group-hover:text-green-400 transition-colors" />
+                Falar com Consultor
+              </a>
+            </div>
+          </div>
+          
+          <div className="w-full lg:w-1/2 relative z-10 hidden lg:block">
+            <div className="relative w-full aspect-square max-w-[500px] mx-auto mt-8 lg:mt-0">
+              {/* Image background decoration */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-cyan-400/20 rounded-[2.5rem] transform rotate-3 scale-105 backdrop-blur-3xl border border-white/10"></div>
+              
+              {/* Main Image */}
+              <img 
+                src="https://images.unsplash.com/photo-1593640408182-31c70c8268f5?q=80&w=1000&auto=format&fit=crop" 
+                alt="Setup Premium"
+                className="relative z-10 w-full h-full object-cover rounded-[2.5rem] shadow-2xl border border-slate-800/50 transform -rotate-2 hover:rotate-0 transition-transform duration-700"
+              />
+              
+              {/* Floating badges */}
+              <div className="absolute top-12 -left-12 bg-slate-900/90 backdrop-blur-md border border-slate-700 p-4 rounded-2xl shadow-2xl z-20 animate-[bounce_4s_infinite]">
+                <div className="flex items-center gap-3">
+                  <div className="bg-green-500/20 p-2.5 rounded-xl text-green-400">
+                    <Shield className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-white">Garantia</p>
+                    <p className="text-xs text-slate-400">Total Segurança</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="absolute bottom-16 -right-8 bg-slate-900/90 backdrop-blur-md border border-slate-700 p-4 rounded-2xl shadow-2xl z-20 animate-[bounce_5s_infinite]">
+                <div className="flex items-center gap-3">
+                  <div className="bg-blue-500/20 p-2.5 rounded-xl text-blue-400">
+                    <Cpu className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-white">Alta Performance</p>
+                    <p className="text-xs text-slate-400">Notebooks & PCs</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
