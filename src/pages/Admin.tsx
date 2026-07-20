@@ -25,7 +25,7 @@ export const Admin = () => {
   const [category, setCategory] = useState<'Desktop' | 'Notebook'>('Notebook');
   const [condition, setCondition] = useState<'Novo' | 'Usado'>('Novo');
   const [specs, setSpecs] = useState('');
-  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [currentImageUrl, setCurrentImageUrl] = useState('');
 
   useEffect(() => {
@@ -98,7 +98,7 @@ export const Admin = () => {
       setSpecs('');
       setCurrentImageUrl('');
     }
-    setImageFile(null);
+    setImageFiles([]);
     setIsFormOpen(true);
   };
 
@@ -137,11 +137,14 @@ export const Admin = () => {
         return;
       }
 
-      let imageUrl = currentImageUrl;
+      let imageUrls = currentImageUrl ? currentImageUrl.split(',').filter(Boolean) : [];
 
-      if (imageFile) {
-        imageUrl = await uploadImage(imageFile);
+      if (imageFiles.length > 0) {
+        const uploadedUrls = await Promise.all(imageFiles.map(f => uploadImage(f)));
+        imageUrls = [...imageUrls, ...uploadedUrls];
       }
+
+      const finalImageUrl = imageUrls.join(',');
 
       const specsArray = specs.split(',').map(s => s.trim()).filter(Boolean);
       const productData = {
@@ -150,8 +153,8 @@ export const Admin = () => {
         price: parseFloat(price),
         category,
         condition,
-        specs: JSON.stringify(specsArray),
-        image: imageUrl,
+        specs: specsArray,
+        image: finalImageUrl,
       };
 
       if (editId) {
@@ -171,7 +174,11 @@ export const Admin = () => {
       handleCloseForm();
     } catch (err: any) {
       console.error('Error saving product:', err);
-      alert('Erro ao salvar produto. Verifique o console e as configurações do Supabase.');
+      let errorMsg = 'Erro desconhecido.';
+      if (err.message) errorMsg = err.message;
+      else if (err.error_description) errorMsg = err.error_description;
+      
+      alert(`Erro ao salvar produto: ${errorMsg}\n\nVerifique se o bucket "product-images" existe e é público, e se as regras de segurança (RLS) estão desativadas para a tabela "products" e para o bucket.`);
     } finally {
       setSaving(false);
     }
@@ -409,23 +416,53 @@ export const Admin = () => {
                 </div>
 
                 <div className="col-span-1 sm:col-span-2">
-                  <label className="block text-sm font-medium text-slate-700 mb-1">Foto do Produto</label>
-                  <div className="flex items-center gap-4">
-                    {currentImageUrl && !imageFile && (
-                      <img src={currentImageUrl} alt="Current" className="w-16 h-16 rounded-lg object-cover border border-slate-200" />
-                    )}
+                  <label className="block text-sm font-medium text-slate-700 mb-1">Fotos do Produto</label>
+                  <div className="flex flex-col gap-4">
+                    <div className="flex flex-wrap items-center gap-4">
+                      {currentImageUrl && currentImageUrl.split(',').filter(Boolean).map((url, i) => (
+                        <div key={i} className="relative group">
+                          <img src={url} alt="Current" className="w-16 h-16 rounded-lg object-cover border border-slate-200" />
+                          <button 
+                            type="button" 
+                            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 text-xs shadow-sm opacity-0 group-hover:opacity-100 transition-opacity"
+                            onClick={() => {
+                              const urls = currentImageUrl.split(',').filter(Boolean);
+                              urls.splice(i, 1);
+                              setCurrentImageUrl(urls.join(','));
+                            }}
+                          >
+                            ✕
+                          </button>
+                        </div>
+                      ))}
+                      {imageFiles.map((f, i) => (
+                        <div key={i} className="relative group">
+                          <img src={URL.createObjectURL(f)} alt="New" className="w-16 h-16 rounded-lg object-cover border border-green-500 shadow-sm" />
+                          <button 
+                            type="button" 
+                            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 text-xs shadow-sm opacity-0 group-hover:opacity-100 transition-opacity"
+                            onClick={() => {
+                              setImageFiles(prev => prev.filter((_, idx) => idx !== i));
+                            }}
+                          >
+                            ✕
+                          </button>
+                        </div>
+                      ))}
+                    </div>
                     <label className="flex-1 border-2 border-dashed border-slate-300 rounded-lg p-4 hover:bg-slate-50 hover:border-slate-400 transition-colors cursor-pointer flex flex-col items-center justify-center gap-2">
                       <ImageIcon className="w-6 h-6 text-slate-400" />
                       <span className="text-sm text-slate-600 font-medium">
-                        {imageFile ? imageFile.name : 'Clique para selecionar uma imagem'}
+                        {imageFiles.length > 0 ? `${imageFiles.length} nova(s) imagem(ns) selecionada(s)` : 'Clique para adicionar imagens'}
                       </span>
                       <input 
                         type="file" 
                         accept="image/*"
+                        multiple
                         className="hidden" 
                         onChange={e => {
-                          if (e.target.files && e.target.files[0]) {
-                            setImageFile(e.target.files[0]);
+                          if (e.target.files) {
+                            setImageFiles(prev => [...prev, ...Array.from(e.target.files as FileList)]);
                           }
                         }}
                       />
@@ -491,8 +528,10 @@ export const Admin = () => {
                                };
                                reader.readAsDataURL(e.target.files[0]);
                             }
-                          } catch (err) {
-                            alert('Erro ao fazer upload da logo');
+                          } catch (err: any) {
+                            console.error('Erro no upload:', err);
+                            let errorMsg = err.message || 'Erro desconhecido.';
+                            alert(`Erro ao fazer upload da logo: ${errorMsg}\n\nVerifique as políticas RLS do Supabase.`);
                           } finally {
                             setSaving(false);
                           }

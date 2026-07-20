@@ -61,9 +61,9 @@ export const Cart: React.FC<CartProps> = ({ isOpen, onClose, items, onUpdateQuan
               <ul className="space-y-6">
                 {items.map((item) => (
                   <li key={item.product.id} className="flex gap-4">
-                    <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-slate-200">
+                    <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-slate-200 bg-white">
                       <img
-                        src={item.product.image}
+                        src={item.product.image ? item.product.image.split(',').filter(Boolean)[0] : '/logo.png'}
                         alt={item.product.name}
                         className="h-full w-full object-cover object-center"
                       />
