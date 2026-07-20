@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Product } from '../types';
-import { X, ShoppingBag, Cpu, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, ShoppingBag, Cpu, ChevronLeft, ChevronRight, Share2 } from 'lucide-react';
 
 interface ProductModalProps {
   product: Product;
@@ -115,6 +115,15 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, on
               className="flex-1 flex items-center justify-center bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-xl transition-colors font-semibold shadow-lg shadow-emerald-500/30"
             >
               Comprar Agora
+            </a>
+            <a 
+              href={`https://wa.me/?text=${encodeURIComponent(`Olha que legal esse produto da Visiontec Informática: ${product.name} - ${formatPrice(product.price)}!\n\nAcesse: ${window.location.origin}`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-3 rounded-xl transition-colors font-semibold"
+              title="Compartilhar no WhatsApp"
+            >
+              <Share2 className="w-5 h-5" />
             </a>
           </div>
 

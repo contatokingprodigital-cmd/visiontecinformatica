@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Product } from '../types';
-import { ShoppingBag, Cpu, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ShoppingBag, Cpu, ChevronLeft, ChevronRight, Share2 } from 'lucide-react';
 
 export interface ProductCardProps {
   product: Product;
@@ -120,6 +120,16 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart, 
               className="flex items-center justify-center bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg transition-colors font-medium text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
             >
               Comprar
+            </a>
+            <a 
+              href={`https://wa.me/?text=${encodeURIComponent(`Olha que legal esse produto da Visiontec Informática: ${product.name} - ${formatPrice(product.price)}!\n\nAcesse: ${window.location.origin}`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="flex items-center justify-center bg-slate-100 hover:bg-slate-200 text-slate-700 p-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
+              title="Compartilhar no WhatsApp"
+            >
+              <Share2 className="w-5 h-5" />
             </a>
           </div>
         </div>
