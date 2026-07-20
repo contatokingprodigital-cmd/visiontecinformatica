@@ -1,0 +1,8 @@
+{
+  "name": "Visiontec Informática",
+  "description": "E-commerce para venda de computadores e notebooks novos e usados.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
