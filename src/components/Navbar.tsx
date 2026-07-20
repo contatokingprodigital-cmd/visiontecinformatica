@@ -15,8 +15,8 @@ export const Navbar: React.FC<NavbarProps> = ({ cartItemCount, onOpenCart }) => 
     <nav className="bg-slate-900 text-white sticky top-0 z-40 shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
-          <a href="/" className="flex items-center gap-2 cursor-pointer">
-            <img src={logoUrl} alt="Visiontec Informática" className="h-14 md:h-16 object-contain" />
+          <a href="/" className="flex items-center gap-2 cursor-pointer max-w-[60%] sm:max-w-[70%]">
+            <img src={logoUrl} alt="Visiontec Informática" className="h-10 sm:h-14 md:h-16 w-auto object-contain" />
           </a>
           
           <div className="flex items-center gap-4">
