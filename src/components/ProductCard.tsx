@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { Product } from '../types';
 import { ShoppingBag, Cpu, ChevronLeft, ChevronRight } from 'lucide-react';
 
-interface ProductCardProps {
+export interface ProductCardProps {
   product: Product;
   onAddToCart: (product: Product) => void;
+  onClick?: () => void;
 }
 
-export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
+export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart, onClick }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const images = product.image ? product.image.split(',').filter(Boolean) : ['/logo.png'];
 
@@ -17,16 +18,21 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }
 
   const nextImage = (e: React.MouseEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     setCurrentImageIndex((prev) => (prev + 1) % images.length);
   };
 
   const prevImage = (e: React.MouseEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition-shadow flex flex-col h-full group">
+    <div 
+      className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition-shadow flex flex-col h-full group cursor-pointer"
+      onClick={onClick}
+    >
       <div className="relative aspect-[4/3] overflow-hidden bg-slate-100">
         <img 
           src={images[currentImageIndex]} 
@@ -97,7 +103,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }
           </span>
           <div className="flex gap-2">
             <button 
-              onClick={() => onAddToCart(product)}
+              onClick={(e) => {
+                e.stopPropagation();
+                onAddToCart(product);
+              }}
               className="flex items-center justify-center bg-slate-100 hover:bg-slate-200 text-slate-700 p-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
               title="Adicionar ao carrinho"
             >
@@ -107,6 +116,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }
               href={`https://wa.me/5551993781978?text=${encodeURIComponent(`Olá! Gostaria de comprar o produto: ${product.name} - ${formatPrice(product.price)}`)}`}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
               className="flex items-center justify-center bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg transition-colors font-medium text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
             >
               Comprar

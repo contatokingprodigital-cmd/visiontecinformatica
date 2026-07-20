@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { Navbar } from '../components/Navbar';
 import { ProductCard } from '../components/ProductCard';
 import { Cart } from '../components/Cart';
+import { ProductModal } from '../components/ProductModal';
 import { Product, CartItem } from '../types';
 import { Filter, Search, Laptop, ChevronRight, Shield, Cpu, MessageCircle } from 'lucide-react';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
@@ -14,6 +15,7 @@ export const Store = () => {
   const [loading, setLoading] = useState(true);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [filterCategory, setFilterCategory] = useState<'Todos' | 'Desktop' | 'Notebook'>('Todos');
   const [filterCondition, setFilterCondition] = useState<'Todos' | 'Novo' | 'Usado'>('Todos');
   const [searchQuery, setSearchQuery] = useState('');
@@ -149,7 +151,7 @@ export const Store = () => {
                 <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
               <a 
-                href="https://wa.me/559999999999" 
+                href="https://wa.me/5551993781978" 
                 target="_blank"
                 rel="noreferrer"
                 className="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white font-medium px-8 py-4 rounded-xl transition-colors border border-slate-700 hover:border-slate-600 flex items-center justify-center gap-2 group"
@@ -257,7 +259,8 @@ export const Store = () => {
               <ProductCard 
                 key={product.id} 
                 product={product} 
-                onAddToCart={handleAddToCart} 
+                onAddToCart={handleAddToCart}
+                onClick={() => setSelectedProduct(product)}
               />
             ))}
           </div>
@@ -276,6 +279,14 @@ export const Store = () => {
         )}
 
       </main>
+
+      {selectedProduct && (
+        <ProductModal 
+          product={selectedProduct} 
+          onClose={() => setSelectedProduct(null)} 
+          onAddToCart={handleAddToCart} 
+        />
+      )}
 
       <footer className="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
