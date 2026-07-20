@@ -4,13 +4,14 @@ import { ProductCard } from '../components/ProductCard';
 import { Cart } from '../components/Cart';
 import { ProductModal } from '../components/ProductModal';
 import { Product, CartItem } from '../types';
-import { Filter, Search, Laptop, ChevronRight, Shield, Cpu, MessageCircle } from 'lucide-react';
+import { Filter, Search, Laptop, ChevronRight, Shield, Cpu, MessageCircle, Instagram } from 'lucide-react';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import { products as initialProducts } from '../data/products';
 import { useLogo } from '../hooks/useLogo';
 
 export const Store = () => {
   const { logoUrl } = useLogo();
+  const [imgError, setImgError] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -19,6 +20,10 @@ export const Store = () => {
   const [filterCategory, setFilterCategory] = useState<'Todos' | 'Desktop' | 'Notebook'>('Todos');
   const [filterCondition, setFilterCondition] = useState<'Todos' | 'Novo' | 'Usado'>('Todos');
   const [searchQuery, setSearchQuery] = useState('');
+
+  useEffect(() => {
+    setImgError(false);
+  }, [logoUrl]);
 
   useEffect(() => {
     fetchProducts();
@@ -291,13 +296,37 @@ export const Store = () => {
       <footer className="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2">
-            <img src={logoUrl} alt="Visiontec Informática" className="h-6 object-contain opacity-75 grayscale hover:grayscale-0 transition-all" />
+            {!imgError && logoUrl ? (
+              <img 
+                src={logoUrl} 
+                alt="Visiontec Informática" 
+                className="h-6 object-contain opacity-75 grayscale hover:grayscale-0 transition-all" 
+                onError={() => setImgError(true)}
+              />
+            ) : (
+              <div className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <Laptop className="h-5 w-5" />
+                <span className="font-bold tracking-tight">Visiontec</span>
+              </div>
+            )}
           </div>
           <p className="text-sm">
             © {new Date().getFullYear()} Visiontec Informática. Todos os direitos reservados.
           </p>
-          <div className="text-sm text-slate-500">
-            visiontec.vinicius@hotmail.com
+          <div className="flex items-center gap-6">
+            <a 
+              href="https://www.instagram.com/visiontecinformatica" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-slate-400 hover:text-emerald-500 transition-colors flex items-center gap-2 text-sm font-medium"
+              title="Siga-nos no Instagram"
+            >
+              <Instagram className="w-5 h-5" />
+              <span>Instagram</span>
+            </a>
+            <div className="text-sm text-slate-500">
+              visiontec.vinicius@hotmail.com
+            </div>
           </div>
         </div>
       </footer>

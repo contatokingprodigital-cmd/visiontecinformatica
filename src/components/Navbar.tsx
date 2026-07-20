@@ -10,13 +10,31 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({ cartItemCount, onOpenCart }) => {
   const { logoUrl } = useLogo();
+  const [imgError, setImgError] = React.useState(false);
+
+  // Reset error state if logoUrl changes
+  React.useEffect(() => {
+    setImgError(false);
+  }, [logoUrl]);
 
   return (
     <nav className="bg-slate-900 text-white sticky top-0 z-40 shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           <a href="/" className="flex items-center gap-2 cursor-pointer max-w-[60%] sm:max-w-[70%]">
-            <img src={logoUrl} alt="Visiontec Informática" className="h-10 sm:h-14 md:h-16 w-auto object-contain" />
+            {!imgError && logoUrl ? (
+              <img 
+                src={logoUrl} 
+                alt="Visiontec Informática" 
+                className="h-10 sm:h-14 md:h-16 w-auto object-contain" 
+                onError={() => setImgError(true)}
+              />
+            ) : (
+              <div className="flex items-center gap-2">
+                <Laptop className="h-6 sm:h-8 w-6 sm:w-8 text-blue-500" />
+                <span className="font-bold text-lg sm:text-xl tracking-tight text-white whitespace-nowrap">Visiontec</span>
+              </div>
+            )}
           </a>
           
           <div className="flex items-center gap-4">

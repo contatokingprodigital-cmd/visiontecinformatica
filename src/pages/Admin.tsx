@@ -7,6 +7,7 @@ import { useLogo } from '../hooks/useLogo';
 
 export const Admin = () => {
   const { logoUrl, updateLogo } = useLogo();
+  const [imgError, setImgError] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState(false);
@@ -27,6 +28,10 @@ export const Admin = () => {
   const [specs, setSpecs] = useState('');
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [currentImageUrl, setCurrentImageUrl] = useState('');
+
+  useEffect(() => {
+    setImgError(false);
+  }, [logoUrl]);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -260,7 +265,16 @@ export const Admin = () => {
       <nav className="bg-slate-900 text-white shadow-lg sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <img src="/logo.png" alt="Visiontec Admin" className="h-8 object-contain" />
+            {!imgError && logoUrl ? (
+              <img 
+                src={logoUrl} 
+                alt="Visiontec Admin" 
+                className="h-8 object-contain" 
+                onError={() => setImgError(true)}
+              />
+            ) : (
+              <Laptop className="h-6 w-6 text-blue-500" />
+            )}
             <span className="font-bold text-xl tracking-tight text-white ml-2">Admin</span>
           </div>
           <a href="/" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">Ver Loja</a>
